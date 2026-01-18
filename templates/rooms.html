@@ -1,0 +1,241 @@
+{% extends "base.html" %} {% block title %}Kamar Tersedia - Griya Kost Amalia{% endblock %}
+{% block content %}
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+  <!-- Header -->
+  <div class="text-center mb-12">
+    <h1 class="text-4xl md:text-5xl font-bold text-graytext mb-4 font-sans tracking-tight">
+      Kamar Tersedia
+    </h1>
+    <p class="text-lg text-slate-500 max-w-2xl mx-auto leading-relaxed">
+      Pilihan akomodasi terbaik yang telah diverifikasi untuk kenyamanan Anda.
+    </p>
+  </div>
+
+  <!-- Filter Section -->
+  <div class="bg-surface rounded-xl shadow-soft border border-slate-100 p-6 mb-10 sticky top-24 z-10">
+    <form action="{{ url_for('rooms') }}" method="GET">
+      <div class="flex items-center justify-between mb-6">
+        <h2 class="text-xl font-bold text-graytext flex items-center gap-2">
+          <svg class="w-5 h-5 text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4">
+            </path>
+          </svg>
+          Filter Pencarian
+        </h2>
+        <a href="{{ url_for('rooms') }}" class="text-sm text-secondary font-medium hover:underline">Reset Filter</a>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-6 items-end">
+        <div>
+          <label class="block text-sm font-semibold text-graytext mb-2">Harga Minimum</label>
+          <select name="min_price"
+            class="w-full px-4 py-3 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-secondary/20 focus:border-secondary text-sm transition-all bg-white">
+            <option value="">Semua</option>
+            <option value="300000" {% if request.args.get('min_price')=='300000' %}selected{% endif %}>Rp 300.000
+            </option>
+            <option value="350000" {% if request.args.get('min_price')=='350000' %}selected{% endif %}>Rp 350.000
+            </option>
+            <option value="400000" {% if request.args.get('min_price')=='400000' %}selected{% endif %}>Rp 400.000
+            </option>
+          </select>
+        </div>
+        <div>
+          <label class="block text-sm font-semibold text-graytext mb-2">Harga Maksimum</label>
+          <select name="max_price"
+            class="w-full px-4 py-3 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-secondary/20 focus:border-secondary text-sm transition-all bg-white">
+            <option value="">Semua</option>
+            <option value="400000" {% if request.args.get('max_price')=='400000' %}selected{% endif %}>Rp 400.000
+            </option>
+            <option value="450000" {% if request.args.get('max_price')=='450000' %}selected{% endif %}>Rp 450.000
+            </option>
+            <option value="500000" {% if request.args.get('max_price')=='500000' %}selected{% endif %}>Rp 500.000
+            </option>
+          </select>
+        </div>
+        <div>
+          <label class="block text-sm font-semibold text-graytext mb-2">Tipe Kamar</label>
+          <select name="type"
+            class="w-full px-4 py-3 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-secondary/20 focus:border-secondary text-sm transition-all bg-white">
+            <option value="Semua">Semua</option>
+            <option value="Kamar Mandi Luar" {% if request.args.get('type')=='Kamar Mandi Luar' %}selected{% endif %}>
+              Kamar Mandi Luar</option>
+            <option value="Kamar Mandi Dalam" {% if request.args.get('type')=='Kamar Mandi Dalam' %}selected{% endif %}>
+              Kamar Mandi Dalam</option>
+          </select>
+        </div>
+        <button type="submit"
+          class="bg-secondary text-white px-6 py-3 rounded-lg font-bold text-sm hover:bg-primary transition-all shadow-lg shadow-secondary/20 h-[46px]">
+          Terapkan Filter
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <!-- Rooms Grid -->
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+    {% for room in rooms %}
+    <div
+      class="bg-white rounded-3xl shadow-soft border border-slate-100 overflow-hidden hover:shadow-card hover:-translate-y-2 transition-all duration-500 group flex flex-col h-full relative">
+      <div class="aspect-[16/10] bg-slate-50 relative overflow-hidden">
+        {% if room.image_url %}
+        <img src="{{ room.image_url }}" alt="{{ room.room_number }}"
+          class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+        {% else %}
+        <div
+          class="absolute inset-0 bg-gradient-to-br from-primary/5 to-secondary/5 group-hover:opacity-0 transition-opacity">
+        </div>
+        <div
+          class="absolute inset-0 flex items-center justify-center opacity-20 group-hover:scale-110 transition-transform duration-700">
+          <svg class="w-20 h-20 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1"
+              d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6">
+            </path>
+          </svg>
+        </div>
+        {% endif %}
+        <div class="absolute top-6 left-6">
+          <span
+            class="bg-white/90 backdrop-blur-md text-primary px-4 py-1.5 rounded-full text-[10px] font-black shadow-lg tracking-widest uppercase">
+            {{ room.room_number }}</span>
+        </div>
+      </div>
+
+      <div class="p-8 flex-grow flex flex-col">
+        <div class="flex justify-between items-start mb-6">
+          <div>
+            <h3 class="text-2xl font-black text-primary mb-1">{{ "KM Dalam" if room.price >= 400000 else "KM Luar" }}
+            </h3>
+            <p class="text-slate-400 text-xs font-bold uppercase tracking-wider">Tersedia</p>
+          </div>
+          <div class="text-right">
+            <span class="text-2xl font-black text-secondary">Rp {{ "{:,.0f}".format(room.price) }}</span>
+            <p class="text-[10px] font-bold text-slate-400 uppercase tracking-tighter">/ Per Bulan</p>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-3 mb-8 flex-grow">
+          {% for facility in room.facilities.split(',')[:4] %}
+          <div class="flex items-center text-slate-500 text-xs font-bold">
+            <div class="w-1.5 h-1.5 rounded-full bg-secondary mr-2"></div>
+            {{ facility.strip() }}
+          </div>
+          {% endfor %}
+        </div>
+
+        <div class="flex gap-3">
+          <button
+            class="room-detail-btn flex-1 border border-slate-200 text-slate-600 py-3.5 px-4 rounded-xl font-bold text-xs text-center hover:bg-slate-50 transition-all flex items-center justify-center gap-2"
+            data-number="{{ room.room_number }}" data-price="{{ room.price }}" data-facilities="{{ room.facilities }}"
+            data-image="{{ room.image_url or '' }}">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z">
+              </path>
+            </svg>
+            Detail
+          </button>
+          <a href="{{ url_for('booking', room_type=room.room_number) }}"
+            class="flex-[2] bg-primary text-white py-3.5 px-4 rounded-xl font-bold text-xs text-center hover:bg-secondary transition-all shadow-lg shadow-primary/10 block">
+            Book Now
+          </a>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+
+  <!-- Detail Modal -->
+  <div id="roomModal" class="fixed inset-0 z-[100] hidden overflow-y-auto" role="dialog">
+    <div class="fixed inset-0 bg-primary/40 backdrop-blur-sm transition-opacity" onclick="closeModal()"></div>
+    <div class="flex min-h-full items-center justify-center p-4">
+      <div class="relative bg-white rounded-[2rem] shadow-2xl max-w-2xl w-full overflow-hidden animate-slide-up">
+        <button onclick="closeModal()"
+          class="absolute top-6 right-6 z-10 w-10 h-10 bg-white/10 backdrop-blur-md rounded-full flex items-center justify-center text-primary hover:bg-slate-100 transition-all border border-slate-100">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+          </svg>
+        </button>
+        <div class="aspect-video bg-slate-900 relative">
+          <img id="modalImage"
+            src="https://images.unsplash.com/photo-1522770179533-24471fcdba45?auto=format&fit=crop&q=80&w=1000"
+            class="w-full h-full object-cover">
+          <div class="absolute inset-0 bg-gradient-to-t from-primary to-transparent"></div>
+          <div class="absolute bottom-8 left-8">
+            <h2 id="modalTitle" class="text-3xl font-black text-white mb-2">Unit 101</h2>
+            <div id="modalPrice" class="text-accent font-bold">Rp 350,000 / month</div>
+          </div>
+        </div>
+        <div class="p-8">
+          <h4 class="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-4">Daftar Fasilitas</h4>
+          <div id="modalFacilities" class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
+            <!-- Dynamic Facilities -->
+          </div>
+          <div class="bg-blue-50 p-6 rounded-2xl border border-blue-100 mb-8">
+            <p class="text-sm font-medium text-slate-600 leading-relaxed italic">"Hunian nyaman dengan lingkungan yang
+              tenang, bersih, dan asri. Cocok untuk Anda yang membutuhkan kualitas istirahat terbaik."</p>
+          </div>
+          <div class="flex gap-4">
+            <a id="modalBookBtn" href="#"
+              class="flex-1 bg-primary text-white py-4 px-6 rounded-2xl font-black text-sm text-center hover:bg-secondary transition-all shadow-xl shadow-primary/10">Booking
+              Unit Ini</a>
+            <a href="https://wa.me/6281217929833" target="_blank"
+              class="flex-1 border border-emerald-500 text-emerald-600 py-4 px-6 rounded-2xl font-black text-sm text-center hover:bg-emerald-50 transition-all">Chat
+              Owner (WA)</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function openModal(number, price, facilities, imageUrl) {
+      document.getElementById('modalTitle').innerText = number;
+      document.getElementById('modalPrice').innerText = 'Rp ' + parseInt(price).toLocaleString() + ' / bulan';
+      document.getElementById('modalBookBtn').href = '/booking?room_type=' + encodeURIComponent(number);
+
+      if (imageUrl) {
+        document.getElementById('modalImage').src = imageUrl;
+      } else {
+        document.getElementById('modalImage').src = 'https://images.unsplash.com/photo-1522770179533-24471fcdba45?auto=format&fit=crop&q=80&w=1000';
+      }
+
+      const facilitiesList = facilities.split(',');
+      const container = document.getElementById('modalFacilities');
+      container.innerHTML = '';
+      facilitiesList.forEach(f => {
+        if (f.trim()) {
+          container.innerHTML += `
+                <div class="flex items-center gap-3 text-primary font-bold text-sm">
+                    <div class="w-2 h-2 rounded-full bg-secondary"></div>
+                    ${f.trim()}
+                </div>
+            `;
+        }
+      });
+
+      document.getElementById('roomModal').classList.remove('hidden');
+      document.body.style.overflow = 'hidden';
+    }
+
+    // Event listeners for detail buttons
+    document.addEventListener('DOMContentLoaded', () => {
+      document.querySelectorAll('.room-detail-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const number = btn.getAttribute('data-number');
+          const price = btn.getAttribute('data-price');
+          const facilities = btn.getAttribute('data-facilities');
+          const image = btn.getAttribute('data-image');
+          openModal(number, price, facilities, image);
+        });
+      });
+    });
+
+    function closeModal() {
+      document.getElementById('roomModal').classList.add('hidden');
+      document.body.style.overflow = 'auto';
+    }
+  </script>
+  {% endblock %}

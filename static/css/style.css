@@ -1,0 +1,53 @@
+/* Custom styles for e_kost application */
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f8fafc; /* graybg */
+}
+
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1; /* slate-300 */
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8; /* slate-400 */
+}
+
+/* Utility Animations */
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-5px); }
+}
+
+/* Scroll-triggered animations */
+.fade-in-scroll {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.8s ease-out;
+}
+
+.fade-in-scroll.in-view {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Form Elements Focus Overrides */
+select:focus, input:focus, textarea:focus {
+  outline: none;
+  border-color: #2563EB; /* Secondary Blue */
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}

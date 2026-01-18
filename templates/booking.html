@@ -1,0 +1,168 @@
+{% extends "base.html" %} {% block title %}Booking Kamar - Griya Kost Amalia{% endblock %}
+{% block content %}
+<div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+  <h1 class="text-4xl font-bold text-center mb-12 text-graytext">
+    Booking Kamar Kost
+  </h1>
+
+  <!-- Flash Messages -->
+  {% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+  {% for category, message in messages %}
+  <div
+    class="max-w-4xl mx-auto mb-8 p-4 rounded-lg {% if category == 'error' %}bg-red-50 text-red-800 border border-red-200{% else %}bg-green-50 text-green-800 border border-green-200{% endif %}">
+    {{ message }}
+  </div>
+  {% endfor %}
+  {% endif %}
+  {% endwith %}
+
+  <div class="bg-white rounded-lg shadow-md p-8">
+    <form action="{{ url_for('booking') }}" method="POST" class="space-y-6">
+      <!-- Personal Information -->
+      <div>
+        <h2 class="text-2xl font-semibold mb-4 text-graytext">
+          Informasi Pribadi
+        </h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div>
+            <label for="name" class="block text-sm font-medium text-graytext mb-2">Nama Lengkap</label>
+            <input type="text" id="name" name="name" required
+              class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent" />
+          </div>
+          <div>
+            <label for="email" class="block text-sm font-medium text-graytext mb-2">Email</label>
+            <input type="email" id="email" name="email" required
+              class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent" />
+          </div>
+          <div>
+            <label for="phone" class="block text-sm font-medium text-graytext mb-2">Nomor Telepon</label>
+            <input type="tel" id="phone" name="phone" required
+              class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent" />
+          </div>
+          <div>
+            <label for="occupation" class="block text-sm font-medium text-graytext mb-2">Pekerjaan</label>
+            <select id="occupation" name="occupation" required
+              class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent">
+              <option value="">Pilih Pekerjaan</option>
+              <option value="student">Mahasiswa</option>
+              <option value="employee">Karyawan</option>
+              <option value="other">Lainnya</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- Room Selection -->
+      {% set prefilled_room = request.args.get('room_type', '') %}
+      <div>
+        <h2 class="text-2xl font-semibold mb-4 text-graytext flex items-center gap-3">
+          Pilih Kamar
+          {% if prefilled_room %}
+          <span
+            class="text-[10px] bg-secondary/10 text-secondary px-3 py-1 rounded-full border border-secondary/20 font-black uppercase tracking-widest">Pre-selected:
+            Unit {{ prefilled_room }}</span>
+          {% endif %}
+        </h2>
+        <div class="space-y-4">
+          <div
+            class="border border-gray-300 rounded-xl p-6 hover:border-primary transition-colors {% if 'KM Luar' in prefilled_room %}bg-primary/5 border-primary shadow-sm{% endif %}">
+            <div class="flex items-center">
+              <input type="radio" id="room1" name="room" value="Kamar Mandi Luar" class="w-5 h-5 accent-primary" {%
+                if 'KM Luar' in prefilled_room %}checked{% endif %} />
+              <label for="room1" class="ml-4 flex-1 cursor-pointer">
+                <div class="flex justify-between items-center">
+                  <div>
+                    <h3 class="font-bold text-primary">Kamar Mandi Luar</h3>
+                    <p class="text-sm text-slate-500">WiFi, Kasur, Lemari, Bantal, Include Listrik</p>
+                  </div>
+                  <span class="text-primary font-black">Rp 350.000/bln</span>
+                </div>
+              </label>
+            </div>
+          </div>
+          <div
+            class="border border-gray-300 rounded-xl p-6 hover:border-primary transition-colors {% if 'KM Dalam' in prefilled_room %}bg-primary/5 border-primary shadow-sm{% endif %}">
+            <div class="flex items-center">
+              <input type="radio" id="room2" name="room" value="Kamar Mandi Dalam" class="w-5 h-5 accent-primary" {%
+                if 'KM Dalam' in prefilled_room %}checked{% endif %} />
+              <label for="room2" class="ml-4 flex-1 cursor-pointer">
+                <div class="flex justify-between items-center">
+                  <div>
+                    <h3 class="font-bold text-primary">Kamar Mandi Dalam</h3>
+                    <p class="text-sm text-slate-500">Kamar mandi dalam, WiFi, Kasur, Lemari, include listrik</p>
+                  </div>
+                  <span class="text-primary font-black">Rp 420.000/bln</span>
+                </div>
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Booking Details -->
+      <div>
+        <h2 class="text-2xl font-semibold mb-4 text-graytext">
+          Detail Booking
+        </h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div>
+            <label for="checkin" class="block text-sm font-medium text-graytext mb-2">Tanggal Masuk</label>
+            <input type="date" id="checkin" name="checkin" required
+              class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent" />
+          </div>
+          <div>
+            <label for="duration" class="block text-sm font-medium text-graytext mb-2">Durasi Sewa (bulan)</label>
+            <select id="duration" name="duration" required
+              class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent">
+              <option value="">Pilih Durasi</option>
+              <option value="1">1 bulan</option>
+              <option value="3">3 bulan</option>
+              <option value="6">6 bulan</option>
+              <option value="12">12 bulan</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- Additional Information -->
+      <div>
+        <label for="notes" class="block text-sm font-medium text-graytext mb-2">Catatan Tambahan (Opsional)</label>
+        <textarea id="notes" name="notes" rows="4"
+          class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+          placeholder="Jika ada permintaan khusus..."></textarea>
+      </div>
+
+      <!-- Terms and Conditions -->
+      <div class="flex items-start">
+        <input type="checkbox" id="terms" name="terms" required class="mt-1 mr-3" />
+        <label for="terms" class="text-sm text-graytext">
+          Saya telah membaca dan menyetujui
+          <a href="#" class="text-primary hover:underline">syarat dan ketentuan</a>
+          yang berlaku.
+        </label>
+      </div>
+
+      <!-- Submit Button -->
+      <div class="text-center pt-6">
+        <button type="submit"
+          class="w-full bg-primary text-white px-8 py-5 rounded-2xl font-black text-lg hover:bg-secondary transition-all shadow-xl shadow-primary/20 hover:-translate-y-1">
+          Kirim Booking Sekarang
+        </button>
+        <p class="mt-8 text-sm text-slate-400 font-bold uppercase tracking-widest">Atau Hubungi Langsung</p>
+        <div class="mt-4">
+          <a href="https://wa.me/6281217929833?text=Halo%20Owner%20Griya%20Kost%20Amalia,%20saya%20tertarik%20dengan%20kamar%20Anda."
+            target="_blank"
+            class="inline-flex items-center gap-3 text-emerald-600 font-black hover:text-emerald-700 transition-colors">
+            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+              <path
+                d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.246 2.248 3.484 5.232 3.484 8.412-.003 6.557-5.338 11.892-11.893 11.892-1.997-.001-3.951-.5-5.688-1.448l-6.309 1.656zm6.224-3.82c1.516.903 3.105 1.48 4.756 1.481 5.304 0 9.615-4.311 9.615-9.617 0-2.571-1.011-4.991-2.844-6.824-1.834-1.832-4.254-2.842-6.829-2.842-5.306 0-9.619 4.312-9.619 9.618 0 1.956.592 3.868 1.701 5.485l-.576 2.105 2.131-.559zm10.811-6.315c-.012-.018-.033-.028-.052-.039-.196-.1-.196-.1-1.161-.58-.1-.05-.166-.07-.233.03l-.401.502c-.066.07-.133.08-.233.03-.1-.05-.42-.155-.798-.49-.294-.263-.49-.588-.548-.688-.058-.1-.006-.154.043-.203l.125-.152c.03-.04.043-.07.066-.11s.011-.08-.006-.127c-.017-.046-.233-.58-.321-.762-.085-.183-.171-.153-.233-.153l-.196-.003c-.067 0-.171.025-.26.113-.088.088-.344.337-.344.821 0 .484.352.951.401 1.018.05.067.693 1.059 1.678 1.485.234.1.417.16.559.205.235.075.449.064.618.039.189-.028.58-.237.661-.466.082-.228.082-.423.057-.466z" />
+            </svg>
+            Chat di WhatsApp
+          </a>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}

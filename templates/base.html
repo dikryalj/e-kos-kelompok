@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{% block title %}Griya Kost Amalia | Hunian Nyaman & Terjangkau{% endblock %}</title>
+
+  <!-- SEO & Meta Tags -->
+  <meta name="description"
+    content="Griya Kost Amalia: Solusi hunian kost nyaman, aman, dan terjangkau di Sukoharjo. Booking kamar Anda sekarang dengan mudah dan cepat.">
+  <meta name="keywords"
+    content="kost sukoharjo, sewa kost, kost amalia, griya kost amalia, booking kost online, kost terjangkau">
+  <meta name="author" content="Griya Kost Amalia Management">
+
+  <!-- Open Graph / Meta Social -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="{{ request.url }}">
+  <meta property="og:title" content="Griya Kost Amalia | Hunian Nyaman & Terjangkau">
+  <meta property="og:description"
+    content="Cari kost nyaman dengan fasilitas lengkap di Sukoharjo? Griya Kost Amalia jawabannya. Aman & Nyaman.">
+  <meta property="og:image" content="{{ url_for('static', filename='img/og-preview.jpg', _external=True) }}">
+
+  <!-- Twitter Meta Tags -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Griya Kost Amalia | Hunian Nyaman & Terjangkau">
+  <meta name="twitter:description"
+    content="Cari kost nyaman dengan fasilitas lengkap di Sukoharjo? Griya Kost Amalia jawabannya. Aman & Nyaman.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#0A2540',
+            secondary: '#2563EB',
+            accent: '#38BDF8',
+            graytext: '#1F2937',
+            graybg: '#F8FAFC',
+            surface: '#FFFFFF',
+          },
+          fontFamily: {
+            sans: ["Inter", "sans-serif"],
+            poppins: ["Poppins", "sans-serif"],
+          },
+          boxShadow: {
+            'soft': '0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03)',
+            'card': '0 10px 25px -3px rgba(0, 0, 0, 0.05), 0 4px 10px -2px rgba(0, 0, 0, 0.025)',
+          },
+          animation: {
+            'fade-in': 'fadeIn 0.5s ease-out',
+            'slide-up': 'slideUp 0.5s cubic-bezier(0.16, 1, 0.3, 1)',
+          },
+          keyframes: {
+            fadeIn: { '0%': { opacity: '0' }, '100%': { opacity: '1' } },
+            slideUp: { '0%': { transform: 'translateY(20px)', opacity: '0' }, '100%': { transform: 'translateY(0)', opacity: '1' } },
+          },
+        },
+      },
+    };
+  </script>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
+</head>
+
+<body class="font-sans bg-graybg text-graytext antialiased">
+
+  <div class="min-h-screen flex flex-col">
+    <!-- Navigation -->
+    <nav class="bg-white/80 backdrop-blur-xl border-b border-slate-100 px-6 py-4 sticky top-0 z-50">
+      <div class="max-w-7xl mx-auto flex justify-between items-center">
+        <a href="/" class="flex items-center gap-3 group">
+          <div
+            class="w-10 h-10 bg-primary rounded-xl flex items-center justify-center text-white font-black group-hover:bg-secondary transition-colors uppercase">
+            A</div>
+          <span class="text-2xl font-bold text-primary tracking-tight">Griya Kost Amalia</span>
+        </a>
+        <div class="flex items-center gap-10">
+          <div class="hidden md:flex items-center gap-8">
+            <a href="/" class="text-sm font-bold text-slate-500 hover:text-primary transition-colors">Beranda</a>
+            <a href="/rooms" class="text-sm font-bold text-slate-500 hover:text-primary transition-colors">Kamar</a>
+            <a href="/booking" class="text-sm font-bold text-slate-500 hover:text-primary transition-colors">Booking</a>
+          </div>
+          {% if current_user.is_authenticated %}
+          <div class="flex items-center gap-6">
+            <a href="/admin/inbox"
+              class="text-sm font-bold text-slate-500 hover:text-primary transition-colors flex items-center gap-2">
+              Inbox
+              <span class="w-2 h-2 bg-red-500 rounded-full animate-pulse"></span>
+            </a>
+            <a href="/logout"
+              class="bg-slate-100 text-slate-600 px-6 py-2.5 rounded-xl text-sm font-bold hover:bg-slate-200 transition-all">Logout</a>
+          </div>
+          {% else %}
+          <a href="/login"
+            class="bg-primary text-white px-6 py-2.5 rounded-xl text-sm font-bold hover:bg-secondary transition-all shadow-lg shadow-primary/20">Login
+            Admin</a>
+          {% endif %}
+        </div>
+      </div>
+    </nav>
+
+    <main class="flex-1 bg-white">
+      {% block content %}{% endblock %}
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-primary text-white py-12">
+      <div class="max-w-7xl mx-auto px-6 text-center">
+        <div class="flex items-center justify-center gap-3 mb-6">
+          <div class="w-8 h-8 bg-white rounded-lg flex items-center justify-center text-primary font-black">A</div>
+          <span class="text-xl font-bold tracking-tight">Griya Kost Amalia</span>
+        </div>
+        <p class="text-slate-400 text-sm">&copy; 2026 Griya Kost Amalia. All rights reserved.</p>
+      </div>
+    </footer>
+  </div>
+
+  <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+
+</html>
