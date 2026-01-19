@@ -1,0 +1,113 @@
+{% extends "base.html" %}
+
+{% block title %}Verifikasi OTP - E-Kost Griya Amalia{% endblock %}
+
+{% block content %}
+<section class="py-5" style="min-height: 80vh; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-5">
+                <div class="card shadow-lg" style="border-radius: 15px; border: none;">
+                    <div class="card-body p-5 text-center">
+                        <div class="mb-4">
+                            <div
+                                style="width: 80px; height: 80px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 50%; margin: 0 auto; display: flex; align-items: center; justify-content: center;">
+                                <i class="fas fa-envelope" style="font-size: 40px; color: white;"></i>
+                            </div>
+                        </div>
+
+                        <h2 class="mb-3" style="color: #667eea; font-weight: bold;">Verifikasi Email</h2>
+                        <p class="text-muted mb-4">Kami telah mengirim kode OTP ke email Anda. Silakan cek inbox atau
+                            folder spam.</p>
+
+                        {% with messages = get_flashed_messages(with_categories=true) %}
+                        {% if messages %}
+                        {% for category, message in messages %}
+                        <div class="alert alert-{{ 'danger' if category == 'error' else category }} alert-dismissible fade show"
+                            role="alert">
+                            {{ message }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                        </div>
+                        {% endfor %}
+                        {% endif %}
+                        {% endwith %}
+
+                        <form method="POST" action="{{ url_for('verify_otp') }}">
+                            <div class="mb-4">
+                                <label for="otp_code" class="form-label">Kode OTP (6 Digit)</label>
+                                <input type="text" class="form-control text-center" id="otp_code" name="otp_code"
+                                    required maxlength="6" pattern="\d{6}"
+                                    style="font-size: 24px; letter-spacing: 10px; font-weight: bold;"
+                                    placeholder="000000">
+                                <small class="text-muted">Kode OTP berlaku selama 10 menit</small>
+                            </div>
+
+                            <button type="submit" class="btn w-100 py-3 mb-3"
+                                style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; border-radius: 10px; font-weight: bold;">
+                                Verifikasi
+                            </button>
+                        </form>
+
+                        <div class="mt-3">
+                            <p class="text-muted mb-2">Tidak menerima kode?</p>
+                            <button id="resendBtn" class="btn btn-outline-primary" onclick="resendOTP()">
+                                Kirim Ulang OTP
+                            </button>
+                            <p id="countdown" class="text-muted mt-2" style="display: none;">
+                                Kirim ulang dalam <span id="timer">60</span> detik
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+    let countdown = 60;
+    let timerInterval;
+
+    function resendOTP() {
+        fetch('{{ url_for("resend_otp") }}', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert(data.message);
+                    startCountdown();
+                } else {
+                    alert(data.message);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Terjadi kesalahan. Silakan coba lagi.');
+            });
+    }
+
+    function startCountdown() {
+        document.getElementById('resendBtn').style.display = 'none';
+        document.getElementById('countdown').style.display = 'block';
+        countdown = 60;
+
+        timerInterval = setInterval(() => {
+            countdown--;
+            document.getElementById('timer').textContent = countdown;
+
+            if (countdown <= 0) {
+                clearInterval(timerInterval);
+                document.getElementById('resendBtn').style.display = 'inline-block';
+                document.getElementById('countdown').style.display = 'none';
+            }
+        }, 1000);
+    }
+
+    // Auto-focus on OTP input
+    document.getElementById('otp_code').focus();
+</script>
+{% endblock %}

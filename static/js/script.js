@@ -37,17 +37,17 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Enhanced hover effects for cards
   document.querySelectorAll('.group').forEach(card => {
-    card.addEventListener('mouseenter', function() {
+    card.addEventListener('mouseenter', function () {
       this.style.transform = 'translateY(-8px) scale(1.02)';
     });
 
-    card.addEventListener('mouseleave', function() {
+    card.addEventListener('mouseleave', function () {
       this.style.transform = 'translateY(0) scale(1)';
     });
   });
 
   // Parallax effect for hero section
-  window.addEventListener('scroll', function() {
+  window.addEventListener('scroll', function () {
     const scrolled = window.pageYOffset;
     const hero = document.querySelector('.hero-section');
     if (hero) {
@@ -82,7 +82,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Add loading animation for buttons
   document.querySelectorAll('.btn-primary').forEach(btn => {
-    btn.addEventListener('click', function() {
+    btn.addEventListener('click', function () {
       this.innerHTML = '<span class="animate-spin">⟳</span> Memproses...';
       setTimeout(() => {
         this.innerHTML = 'Booking Sekarang';
@@ -97,23 +97,63 @@ document.addEventListener("DOMContentLoaded", function () {
   if (mobileMenuBtn && mobileMenu) {
     mobileMenuBtn.addEventListener('click', () => {
       mobileMenu.classList.toggle('hidden');
-      
+
       // Animate icon (optional simplicity)
       const icon = mobileMenuBtn.querySelector('svg');
       if (mobileMenu.classList.contains('hidden')) {
-         icon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>';
+        icon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>';
       } else {
-         icon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>';
+        icon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>';
       }
     });
 
     // Close menu when clicking outside
     document.addEventListener('click', (e) => {
       if (!mobileMenuBtn.contains(e.target) && !mobileMenu.contains(e.target) && !mobileMenu.classList.contains('hidden')) {
-          mobileMenu.classList.add('hidden');
-           const icon = mobileMenuBtn.querySelector('svg');
-           icon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>';
+        mobileMenu.classList.add('hidden');
+        const icon = mobileMenuBtn.querySelector('svg');
+        icon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>';
       }
     });
+  }
+
+  // Profile Dropdown Toggle
+  const profileDropdownBtn = document.getElementById('profileDropdownBtn');
+  const profileDropdownMenu = document.getElementById('profileDropdownMenu');
+
+  if (profileDropdownBtn && profileDropdownMenu) {
+    console.log('Profile dropdown initialized');
+    profileDropdownBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      e.preventDefault();
+      console.log('Dropdown clicked, toggling...');
+      profileDropdownMenu.classList.toggle('hidden');
+      console.log('Dropdown hidden class:', profileDropdownMenu.classList.contains('hidden'));
+    });
+
+    // Close dropdown when clicking outside
+    document.addEventListener('click', (e) => {
+      if (!profileDropdownBtn.contains(e.target) && !profileDropdownMenu.contains(e.target)) {
+        profileDropdownMenu.classList.add('hidden');
+      }
+    });
+  }
+
+  // Fetch and update notification badge count
+  const notifBadge = document.getElementById('notifBadge');
+  if (notifBadge) {
+    fetch('/api/unread-notifications-count')
+      .then(response => response.json())
+      .then(data => {
+        if (data.count > 0) {
+          notifBadge.textContent = data.count;
+          notifBadge.classList.remove('hidden');
+        } else {
+          notifBadge.classList.add('hidden');
+        }
+      })
+      .catch(error => {
+        console.error('Error fetching notification count:', error);
+      });
   }
 });

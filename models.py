@@ -8,8 +8,14 @@ db = SQLAlchemy()
 class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(64), unique=True, nullable=False)
+    email = db.Column(db.String(120), unique=True, nullable=True)
+    phone = db.Column(db.String(20))
+    full_name = db.Column(db.String(100))
     password_hash = db.Column(db.String(128))
+    profile_image = db.Column(db.String(255))  # Path to profile image
     role = db.Column(db.String(20), default='tenant') # 'admin' or 'tenant'
+    is_verified = db.Column(db.Boolean, default=False)
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
 
     def set_password(self, password):
         self.password_hash = generate_password_hash(password)
@@ -53,6 +59,7 @@ class Payment(db.Model):
 
 class Booking(db.Model):
     id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=True)
     name = db.Column(db.String(100), nullable=False)
     email = db.Column(db.String(120), nullable=False)
     phone = db.Column(db.String(20), nullable=False)
@@ -63,3 +70,27 @@ class Booking(db.Model):
     notes = db.Column(db.Text)
     status = db.Column(db.String(20), default='pending') # pending, confirmed, cancelled
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    
+    # Relationship
+    user = db.relationship('User', backref='bookings')
+
+class OTP(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    email = db.Column(db.String(120), nullable=False)
+    otp_code = db.Column(db.String(6), nullable=False)
+    is_used = db.Column(db.Boolean, default=False)
+    expires_at = db.Column(db.DateTime, nullable=False)
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+
+class Notification(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(200), nullable=False)
+    message = db.Column(db.Text, nullable=False)
+    notification_type = db.Column(db.String(50), default='announcement') # announcement, booking, system
+    is_global = db.Column(db.Boolean, default=True) # True = broadcast to all users
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=True) # specific user if not global
+    is_read = db.Column(db.Boolean, default=False)
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    
+    # Relationship
+    user = db.relationship('User', backref='notifications')

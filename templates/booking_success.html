@@ -1,0 +1,560 @@
+{% extends "base.html" %}
+
+{% block title %}Booking Berhasil - E-Kost Griya Amalia{% endblock %}
+
+{% block content %}
+<section class="booking-success-section">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-6 col-md-8">
+                <div class="success-card">
+                    <!-- Confetti Animation -->
+                    <div class="confetti-container">
+                        <div class="confetti"></div>
+                        <div class="confetti"></div>
+                        <div class="confetti"></div>
+                        <div class="confetti"></div>
+                        <div class="confetti"></div>
+                        <div class="confetti"></div>
+                        <div class="confetti"></div>
+                        <div class="confetti"></div>
+                    </div>
+
+                    <!-- Success Animation -->
+                    <div class="success-icon-wrapper">
+                        <div class="success-circle-bg"></div>
+                        <div class="success-icon">
+                            <svg class="checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
+                                <circle class="checkmark__circle" cx="26" cy="26" r="25" fill="none" />
+                                <path class="checkmark__check" fill="none" d="m14.1 27.2 7.1 7.2 16.7-16.8" />
+                            </svg>
+                        </div>
+                        <div class="success-pulse"></div>
+                    </div>
+
+                    <h2 class="success-title">Booking Berhasil!</h2>
+                    <p class="success-subtitle">
+                        Terima kasih <strong>{{ booking.name }}</strong>!<br>
+                        Data booking Anda sudah kami terima.
+                    </p>
+
+                    <!-- Booking Summary -->
+                    <div class="booking-summary">
+                        <h4 class="summary-title">Ringkasan Booking</h4>
+                        <div class="summary-grid">
+                            <div class="summary-item">
+                                <span class="summary-label">Nama</span>
+                                <span class="summary-value">{{ booking.name }}</span>
+                            </div>
+                            <div class="summary-item">
+                                <span class="summary-label">Tipe Kamar</span>
+                                <span class="summary-value">{{ booking.room_type }}</span>
+                            </div>
+                            <div class="summary-item">
+                                <span class="summary-label">Check-in</span>
+                                <span class="summary-value">{{ booking.checkin_date }}</span>
+                            </div>
+                            <div class="summary-item">
+                                <span class="summary-label">Durasi</span>
+                                <span class="summary-value">{{ booking.duration }} Bulan</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- WhatsApp Info Card -->
+                    <div class="whatsapp-info-card">
+                        <div class="whatsapp-icon-wrapper">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="currentColor"
+                                viewBox="0 0 16 16">
+                                <path
+                                    d="M13.601 2.326A7.854 7.854 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.057 3.965L0 16l4.204-1.102a7.933 7.933 0 0 0 3.79.965h.004c4.368 0 7.926-3.558 7.93-7.93A7.898 7.898 0 0 0 13.6 2.326zM7.994 14.521a6.573 6.573 0 0 1-3.356-.92l-.24-.144-2.494.654.666-2.433-.156-.251a6.56 6.56 0 0 1-1.007-3.505c0-3.626 2.957-6.584 6.591-6.584a6.56 6.56 0 0 1 4.66 1.931 6.557 6.557 0 0 1 1.928 4.66c-.004 3.639-2.961 6.592-6.592 6.592zm3.615-4.934c-.197-.099-1.17-.578-1.353-.646-.182-.065-.315-.099-.445.099-.133.197-.513.646-.627.775-.114.133-.232.148-.43.05-.197-.1-.836-.308-1.592-.985-.59-.525-.985-1.175-1.103-1.372-.114-.198-.011-.304.088-.403.087-.088.197-.232.296-.346.1-.114.133-.198.198-.33.065-.134.034-.248-.015-.347-.05-.099-.445-1.076-.612-1.47-.16-.389-.323-.335-.445-.34-.114-.007-.247-.007-.38-.007a.729.729 0 0 0-.529.247c-.182.198-.691.677-.691 1.654 0 .977.71 1.916.81 2.049.098.133 1.394 2.132 3.383 2.992.47.205.84.326 1.129.418.475.152.904.129 1.246.08.38-.058 1.171-.48 1.338-.943.164-.464.164-.86.114-.943-.049-.084-.182-.133-.38-.232z" />
+                            </svg>
+                        </div>
+                        <p class="whatsapp-info-text">
+                            Klik tombol di bawah untuk langsung menghubungi owner via WhatsApp dengan data booking Anda:
+                        </p>
+                        {% set wa_message = "Halo Owner Griya Kost Amalia,%0A%0ASaya ingin konfirmasi
+                        booking:%0A%0A*Nama:* " ~ booking.name ~ "%0A*Tipe Kamar:* " ~ booking.room_type ~ "%0A*Tanggal
+                        Check-in:* " ~ booking.checkin_date ~ "%0A*Durasi:* " ~ booking.duration ~ " bulan%0A%0AMohon
+                        informasi lebih lanjut. Terima kasih!" %}
+                        <a href="https://wa.me/6281217929833?text={{ wa_message }}" class="btn-whatsapp" target="_blank"
+                            rel="noopener">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor"
+                                viewBox="0 0 16 16">
+                                <path
+                                    d="M13.601 2.326A7.854 7.854 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.057 3.965L0 16l4.204-1.102a7.933 7.933 0 0 0 3.79.965h.004c4.368 0 7.926-3.558 7.93-7.93A7.898 7.898 0 0 0 13.6 2.326zM7.994 14.521a6.573 6.573 0 0 1-3.356-.92l-.24-.144-2.494.654.666-2.433-.156-.251a6.56 6.56 0 0 1-1.007-3.505c0-3.626 2.957-6.584 6.591-6.584a6.56 6.56 0 0 1 4.66 1.931 6.557 6.557 0 0 1 1.928 4.66c-.004 3.639-2.961 6.592-6.592 6.592zm3.615-4.934c-.197-.099-1.17-.578-1.353-.646-.182-.065-.315-.099-.445.099-.133.197-.513.646-.627.775-.114.133-.232.148-.43.05-.197-.1-.836-.308-1.592-.985-.59-.525-.985-1.175-1.103-1.372-.114-.198-.011-.304.088-.403.087-.088.197-.232.296-.346.1-.114.133-.198.198-.33.065-.134.034-.248-.015-.347-.05-.099-.445-1.076-.612-1.47-.16-.389-.323-.335-.445-.34-.114-.007-.247-.007-.38-.007a.729.729 0 0 0-.529.247c-.182.198-.691.677-.691 1.654 0 .977.71 1.916.81 2.049.098.133 1.394 2.132 3.383 2.992.47.205.84.326 1.129.418.475.152.904.129 1.246.08.38-.058 1.171-.48 1.338-.943.164-.464.164-.86.114-.943-.049-.084-.182-.133-.38-.232z" />
+                            </svg>
+                            <span>Kirim via WhatsApp</span>
+                        </a>
+                    </div>
+
+                    <!-- Back to Home Link -->
+                    <div class="back-home-link">
+                        <a href="{{ url_for('index') }}">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                viewBox="0 0 16 16">
+                                <path fill-rule="evenodd"
+                                    d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z" />
+                            </svg>
+                            Kembali ke Beranda
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<style>
+    .booking-success-section {
+        min-height: calc(100vh - 80px);
+        padding: 60px 0;
+        background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 50%, #f0fdfa 100%);
+        display: flex;
+        align-items: center;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .booking-success-section::before {
+        content: '';
+        position: absolute;
+        top: -50%;
+        right: -20%;
+        width: 600px;
+        height: 600px;
+        background: radial-gradient(circle, rgba(16, 185, 129, 0.1) 0%, transparent 70%);
+        border-radius: 50%;
+    }
+
+    .booking-success-section::after {
+        content: '';
+        position: absolute;
+        bottom: -30%;
+        left: -10%;
+        width: 400px;
+        height: 400px;
+        background: radial-gradient(circle, rgba(37, 99, 235, 0.08) 0%, transparent 70%);
+        border-radius: 50%;
+    }
+
+    .success-card {
+        background: white;
+        border-radius: 24px;
+        padding: 50px 40px;
+        text-align: center;
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.1);
+        animation: fadeInUp 0.6s ease-out;
+        position: relative;
+        overflow: hidden;
+        border: 1px solid rgba(16, 185, 129, 0.1);
+    }
+
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    /* Confetti Animation */
+    .confetti-container {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        pointer-events: none;
+    }
+
+    .confetti {
+        position: absolute;
+        width: 10px;
+        height: 10px;
+        top: -10px;
+        animation: confetti-fall 3s ease-out forwards;
+    }
+
+    .confetti:nth-child(1) {
+        left: 10%;
+        background: #10b981;
+        animation-delay: 0s;
+        border-radius: 50%;
+    }
+
+    .confetti:nth-child(2) {
+        left: 20%;
+        background: #3b82f6;
+        animation-delay: 0.1s;
+        border-radius: 2px;
+    }
+
+    .confetti:nth-child(3) {
+        left: 35%;
+        background: #f59e0b;
+        animation-delay: 0.2s;
+        border-radius: 50%;
+    }
+
+    .confetti:nth-child(4) {
+        left: 50%;
+        background: #ef4444;
+        animation-delay: 0.15s;
+        border-radius: 2px;
+    }
+
+    .confetti:nth-child(5) {
+        left: 65%;
+        background: #8b5cf6;
+        animation-delay: 0.25s;
+        border-radius: 50%;
+    }
+
+    .confetti:nth-child(6) {
+        left: 75%;
+        background: #10b981;
+        animation-delay: 0.1s;
+        border-radius: 2px;
+    }
+
+    .confetti:nth-child(7) {
+        left: 85%;
+        background: #ec4899;
+        animation-delay: 0.3s;
+        border-radius: 50%;
+    }
+
+    .confetti:nth-child(8) {
+        left: 90%;
+        background: #06b6d4;
+        animation-delay: 0.05s;
+        border-radius: 2px;
+    }
+
+    @keyframes confetti-fall {
+        0% {
+            transform: translateY(0) rotate(0deg);
+            opacity: 1;
+        }
+
+        100% {
+            transform: translateY(400px) rotate(720deg);
+            opacity: 0;
+        }
+    }
+
+    /* Success Icon Animations */
+    .success-icon-wrapper {
+        position: relative;
+        margin-bottom: 30px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .success-circle-bg {
+        position: absolute;
+        width: 120px;
+        height: 120px;
+        background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(5, 150, 105, 0.05) 100%);
+        border-radius: 50%;
+        animation: pulse-bg 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse-bg {
+
+        0%,
+        100% {
+            transform: scale(1);
+            opacity: 1;
+        }
+
+        50% {
+            transform: scale(1.1);
+            opacity: 0.7;
+        }
+    }
+
+    .success-pulse {
+        position: absolute;
+        width: 100px;
+        height: 100px;
+        border: 3px solid rgba(16, 185, 129, 0.3);
+        border-radius: 50%;
+        animation: pulse-ring 1.5s ease-out infinite;
+    }
+
+    @keyframes pulse-ring {
+        0% {
+            transform: scale(0.8);
+            opacity: 1;
+        }
+
+        100% {
+            transform: scale(1.5);
+            opacity: 0;
+        }
+    }
+
+    .success-icon {
+        width: 90px;
+        height: 90px;
+        background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 10px 25px -5px rgba(16, 185, 129, 0.4);
+        position: relative;
+        z-index: 1;
+        animation: scaleIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) 0.2s backwards;
+    }
+
+    @keyframes scaleIn {
+        from {
+            transform: scale(0);
+        }
+
+        to {
+            transform: scale(1);
+        }
+    }
+
+    /* Animated Checkmark SVG */
+    .checkmark {
+        width: 50px;
+        height: 50px;
+    }
+
+    .checkmark__circle {
+        stroke-dasharray: 166;
+        stroke-dashoffset: 166;
+        stroke-width: 2;
+        stroke-miterlimit: 10;
+        stroke: rgba(255, 255, 255, 0.3);
+        fill: none;
+        animation: stroke 0.6s cubic-bezier(0.65, 0, 0.45, 1) 0.4s forwards;
+    }
+
+    .checkmark__check {
+        transform-origin: 50% 50%;
+        stroke-dasharray: 48;
+        stroke-dashoffset: 48;
+        stroke: white;
+        stroke-width: 4;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        animation: stroke 0.3s cubic-bezier(0.65, 0, 0.45, 1) 0.8s forwards;
+    }
+
+    @keyframes stroke {
+        100% {
+            stroke-dashoffset: 0;
+        }
+    }
+
+    .success-title {
+        font-size: 1.85rem;
+        font-weight: 800;
+        color: #1e293b;
+        margin-bottom: 12px;
+        background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+
+    .success-subtitle {
+        color: #64748b;
+        font-size: 1rem;
+        line-height: 1.7;
+        margin-bottom: 25px;
+    }
+
+    .success-subtitle strong {
+        color: #1e293b;
+        font-weight: 700;
+    }
+
+    /* Booking Summary */
+    .booking-summary {
+        background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+        border: 1px solid #e2e8f0;
+        border-radius: 16px;
+        padding: 20px;
+        margin-bottom: 25px;
+        text-align: left;
+    }
+
+    .summary-title {
+        font-size: 0.75rem;
+        font-weight: 700;
+        color: #94a3b8;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        margin-bottom: 15px;
+        text-align: center;
+    }
+
+    .summary-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+    }
+
+    .summary-item {
+        background: white;
+        padding: 12px 15px;
+        border-radius: 10px;
+        border: 1px solid #e2e8f0;
+    }
+
+    .summary-label {
+        display: block;
+        font-size: 0.7rem;
+        font-weight: 600;
+        color: #94a3b8;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        margin-bottom: 4px;
+    }
+
+    .summary-value {
+        display: block;
+        font-size: 0.9rem;
+        font-weight: 700;
+        color: #1e293b;
+    }
+
+    /* WhatsApp Card */
+    .whatsapp-info-card {
+        background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%);
+        border: 1px solid #a7f3d0;
+        border-radius: 16px;
+        padding: 25px;
+        margin-bottom: 25px;
+        position: relative;
+    }
+
+    .whatsapp-icon-wrapper {
+        width: 50px;
+        height: 50px;
+        background: linear-gradient(135deg, #25d366 0%, #128c7e 100%);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 15px;
+        color: white;
+        box-shadow: 0 8px 20px -5px rgba(37, 211, 102, 0.4);
+    }
+
+    .whatsapp-info-text {
+        color: #047857;
+        font-size: 0.9rem;
+        line-height: 1.6;
+        margin-bottom: 18px;
+        font-weight: 500;
+    }
+
+    .btn-whatsapp {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        background: linear-gradient(135deg, #25d366 0%, #128c7e 100%);
+        color: white;
+        padding: 15px 35px;
+        border-radius: 12px;
+        font-weight: 700;
+        font-size: 1rem;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        box-shadow: 0 8px 20px -5px rgba(37, 211, 102, 0.4);
+        width: 100%;
+    }
+
+    .btn-whatsapp:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 12px 25px -5px rgba(37, 211, 102, 0.5);
+        color: white;
+    }
+
+    .btn-whatsapp:active {
+        transform: translateY(-1px);
+    }
+
+    /* Back Link */
+    .back-home-link {
+        padding-top: 15px;
+    }
+
+    .back-home-link a {
+        color: #64748b;
+        font-size: 0.95rem;
+        font-weight: 600;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        transition: all 0.3s ease;
+        padding: 10px 20px;
+        border-radius: 10px;
+    }
+
+    .back-home-link a:hover {
+        color: #1e293b;
+        background: #f1f5f9;
+    }
+
+    @media (max-width: 576px) {
+        .success-card {
+            padding: 40px 25px;
+            margin: 0 15px;
+            border-radius: 20px;
+        }
+
+        .success-title {
+            font-size: 1.5rem;
+        }
+
+        .success-icon {
+            width: 80px;
+            height: 80px;
+        }
+
+        .checkmark {
+            width: 42px;
+            height: 42px;
+        }
+
+        .success-circle-bg {
+            width: 100px;
+            height: 100px;
+        }
+
+        .success-pulse {
+            width: 85px;
+            height: 85px;
+        }
+
+        .summary-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .whatsapp-info-text {
+            font-size: 0.85rem;
+        }
+
+        .btn-whatsapp {
+            padding: 14px 20px;
+        }
+    }
+</style>
+{% endblock %}
